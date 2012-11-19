@@ -10,7 +10,6 @@
 
 @interface THFileUtility : NSObject
 
-+ (mode_t)fileTypeByPath:(NSString *)filePath;
 + (BOOL)fileIsRegular:(NSString *)filePath;
 + (BOOL)fileIsDirectory:(NSString *)filePath;
 + (uint64)fileSizeByPath:(NSString *)filePath;

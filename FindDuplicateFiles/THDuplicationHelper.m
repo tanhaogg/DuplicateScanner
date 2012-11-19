@@ -9,6 +9,7 @@
 #import "THDuplicationHelper.h"
 #import "THWebDefine.h"
 #import "THFileUtility.h"
+#import "THLock.h"
 
 #define kTHDuplictionConcurrentCount 5
 
@@ -19,11 +20,13 @@ NSString* const THDuplicationFileList = @"THDuplicationFileList";
 NSString* const THDuplicationFinished = @"THDuplicationFinished";
 
 @implementation THDuplicationHelper
+@synthesize notificationQueue;
+
 @synthesize searchPaths;
 @synthesize filterFilePaths;
-@synthesize searchFileExtensions;
-@synthesize filterFileExtensions;
+@synthesize extensionsPredicate;
 @synthesize minFileSize;
+@synthesize maxFileSize;
 @synthesize filterPackage;
 
 @synthesize searching;
@@ -31,23 +34,29 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
 - (void)searchStart
 {
     //判断文件的有效性
-    static BOOL(^fileValid)(NSString*filePath);
-    fileValid = ^(NSString *filePath){
-        uint64 fileSize = [THFileUtility fileSizeByPath:filePath];
-        if (fileSize < minFileSize)
-        {
-            return NO;
+    static BOOL(^fileValid)(NSString *filePath,uint64 *size);
+    fileValid = ^(NSString *filePath,uint64 *size){
+        @autoreleasepool {
+            uint64 fileSize = [THFileUtility fileSizeByPath:filePath];
+            if (size)
+            {
+                *size = fileSize;
+            }
+            if (fileSize < 1024 || (minFileSize > 1024 && fileSize < minFileSize))
+            {
+                return NO;
+            }
+            if (maxFileSize > minFileSize && fileSize > maxFileSize)
+            {
+                return NO;
+            }
+            if (extensionsPredicate)
+            {
+                NSString *fileExtenstion = [filePath pathExtension];
+                return [extensionsPredicate evaluateWithObject:fileExtenstion];
+            }
+            return YES;
         }
-        NSString *fileExtenstion = [[filePath pathExtension] lowercaseString];
-        if (searchFileExtensions && ![searchFileExtensions containsObject:fileExtenstion])
-        {
-            return NO;
-        }
-        if (filterFileExtensions && [filterFileExtensions containsObject:fileExtenstion])
-        {
-            return NO;
-        }
-        return YES;
     };
     
     //判断目录的有效性
@@ -74,99 +83,95 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
     //返回目录的的子目录绝对路径
     static NSArray *(^directorySubPath)(NSString *filePath);
     directorySubPath = ^(NSString *filePath){
-        
-        NSMutableArray *subPaths = [NSMutableArray array];
-        NSArray *subItems = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:filePath error:NULL];
-        for (NSString *path in subItems)
-        {
-            if ([[path lastPathComponent] hasPrefix:@"."]
-                ||[[path lastPathComponent] hasPrefix:@"__MACOSX"])
+        @autoreleasepool {            
+            NSMutableArray *subPaths = [NSMutableArray array];
+            NSArray *subItems = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:filePath error:NULL];
+            for (NSString *path in subItems)
             {
-                continue;
+                if ([[path lastPathComponent] hasPrefix:@"."]
+                    ||[[path lastPathComponent] hasPrefix:@"__MACOSX"])
+                {
+                    continue;
+                }
+                NSString *fullPath = [filePath stringByAppendingPathComponent:path];
+                BOOL valid = directoryValid(fullPath);
+                if (valid)
+                {
+                    [subPaths addObject:fullPath];
+                }
             }
-            NSString *fullPath = [filePath stringByAppendingPathComponent:path];
-            BOOL valid = directoryValid(fullPath);
-            if (valid)
-            {
-                [subPaths addObject:fullPath];
-            }
+            
+            return [NSArray arrayWithArray:subPaths];
         }
-        
-        return [NSArray arrayWithArray:subPaths];
     };
     
     //处理扫描到的文件
     static void(^fileDispose)(NSString *filePath);
     fileDispose = ^(NSString *filePath){
-        
-        BOOL valid = fileValid(filePath);
-        if (!valid)
-        {
-            return;
-        }
-        
-        uint64 fileSize = [THFileUtility fileSizeByPath:filePath];
-        if (fileSize < 1024*1024)
-        {
-            return;
-        }
-        
-        //以文件大小为Key
-        NSNumber *fileKey = [NSNumber numberWithUnsignedLongLong:fileSize];
-        id exist = nil;
-        
-        @synchronized(fileInfo){
-            exist = [fileInfo objectForKey:fileKey];
-        }
-        
-        //还没有大小相同的，则记录下，并返回
-        if (!exist)
-        {
-            @synchronized(fileInfo){
-                [fileInfo setObject:filePath forKey:fileKey];
-            }
-            return;
-        }
-        
-        //计算文件的hash值
-        NSString *hashKey = [THWebUtility hashFile:filePath with:THHashKindMd5];
-        if (!hashKey)
-        {
-            return;
-        }
-        
-        //标识是否已经找到重复项
-        BOOL duplication = NO;
-        NSArray *fileList = nil;
-        
-        //二次判断(防止在hash过程中其它线程已经改变fileInfo结构)
-        @synchronized(fileInfo){
-            exist = [fileInfo objectForKey:fileKey];
-        }
-        
-        //如果fileInfo中相同大小的为string，刚说明还没有计算过hash值
-        if ([exist isKindOfClass:[NSString class]])
-        {
-            NSString *existFile = (NSString *)exist;
-            NSString *existHashKey = [THWebUtility hashFile:existFile with:THHashKindMd5];
-            if (!existHashKey)
+        @autoreleasepool {
+            uint64 fileSize = 0;
+            BOOL valid = fileValid(filePath,&fileSize);
+            if (!valid)
             {
-                //如果计算已存在文件的hash值失败，则覆盖，并退出
-                NSMutableArray *list = [NSMutableArray arrayWithObject:filePath];
-                NSDictionary *hashDic = [NSMutableDictionary dictionaryWithObject:list forKey:hashKey];
-                
-                @synchronized(fileInfo){
-                    [fileInfo setObject:hashDic forKey:fileKey];
-                }
                 return;
             }
             
-            //三次判断(防止在hash过程中其它线程已经改变fileInfo结构)
+            //以文件大小为Key
+            NSNumber *fileKey = [NSNumber numberWithUnsignedLongLong:fileSize];
+            
+            id exist = nil;
+            
+            @synchronized(fileInfo){
+                exist = [fileInfo objectForKey:fileKey];
+                if (!exist)
+                {
+                    [fileInfo setObject:filePath forKey:fileKey];
+                    return;
+                }
+            }
+            
+            //计算文件的hash值
+            NSString *hashKey = [THWebUtility hashFile:filePath with:THHashKindMd5];
+            if (!hashKey)
+            {
+                return;
+            }
+            
+            //文件大小相同，以下的代码互斥,加锁
+            ////////////////////////////////////////
+            [THLock lockForKey:fileKey];
+            ///////////////////////////////////////
+            
+            //二次判断(防止在hash过程中其它线程已经改变fileInfo结构)
             @synchronized(fileInfo){
                 exist = [fileInfo objectForKey:fileKey];
             }
+            
+            //标识是否已经找到重复项
+            BOOL duplication = NO;
+            NSArray *fileList = nil;
+            
+            //如果fileInfo中相同大小的为string，刚说明还没有计算过hash值
             if ([exist isKindOfClass:[NSString class]])
             {
+                NSString *existFile = (NSString *)exist;
+                NSString *existHashKey = [THWebUtility hashFile:existFile with:THHashKindMd5];
+                if (!existHashKey)
+                {
+                    //如果计算已存在文件的hash值失败，则覆盖，并退出
+                    NSMutableArray *list = [NSMutableArray arrayWithObject:filePath];
+                    NSDictionary *hashDic = [NSMutableDictionary dictionaryWithObject:list forKey:hashKey];
+                    
+                    @synchronized(fileInfo){
+                        [fileInfo setObject:hashDic forKey:fileKey];
+                    }
+                    
+                    ////////////////////////////////////////
+                    [THLock unLockForKey:fileKey];
+                    ///////////////////////////////////////
+                    return;
+                }
+                
                 NSMutableDictionary *hashDic = [NSMutableDictionary dictionaryWithCapacity:2];
                 if ([existHashKey isEqualToString:hashKey])
                 {
@@ -186,69 +191,85 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
                     [fileInfo setObject:hashDic forKey:fileKey];
                 }
             }
-        }
-        
-        
-        if ([exist isKindOfClass:[NSMutableDictionary class]])
-        {
-            NSMutableDictionary *hashDic = (NSMutableDictionary *)exist;
-            NSMutableArray *list = [hashDic objectForKey:hashKey];
-            if (list)
+            
+            if ([exist isKindOfClass:[NSMutableDictionary class]])
             {
-                duplication = YES;
-                @synchronized(list){
-                    [list addObject:filePath];
+                NSMutableDictionary *hashDic = (NSMutableDictionary *)exist;
+                
+                //hash值相同，以下代码就互斥,加锁
+                ////////////////////////////////////////
+                [THLock lockForKey:hashKey];
+                ///////////////////////////////////////
+                NSMutableArray *list = [hashDic objectForKey:hashKey];
+                if (list)
+                {
+                    duplication = YES;
+                    @synchronized(list){
+                        [list addObject:filePath];
+                    }
+                    fileList = [list copy];
+                }else
+                {
+                    list = [NSMutableArray arrayWithObject:filePath];
+                    @synchronized(hashDic){
+                        [hashDic setObject:list forKey:hashKey];
+                    }
                 }
-                fileList = [list copy];
-            }else
-            {
-                list = [NSMutableArray arrayWithObject:filePath];
-                @synchronized(hashDic){
-                    [hashDic setObject:list forKey:hashKey];
-                }
+                ////////////////////////////////////////
+                [THLock unLockForKey:hashKey];
+                ///////////////////////////////////////
             }
-        }
-        
-        if (duplication)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self postNotificationSize:fileKey hash:hashKey fileList:fileList];
-            });
+            
+            ////////////////////////////////////////
+            [THLock unLockForKey:fileKey];
+            ///////////////////////////////////////
+            
+            if (duplication)
+            {
+                dispatch_async(notificationQueue, ^{
+                    [self postNotificationSize:fileKey hash:hashKey fileList:fileList];
+                });
+            }
         }
     };
     
     
     //目录扫描
-    static void(^searth)(NSString *filePath);
-    searth = ^(NSString *filePath){
-        NSArray *subPaths = directorySubPath(filePath);
-        NSMutableArray *searchSubPaths = [NSMutableArray arrayWithArray:subPaths];
-        while ([searchSubPaths count] > 0)
-        {
-            if (isStop)
+    static void(^searth)(NSString *filePath,BOOL isDirectory);
+    searth = ^(NSString *filePath,BOOL isDirectory){
+        @autoreleasepool {
+            NSArray *subItems = nil;
+            if (isDirectory)
             {
-                break;
+                subItems = directorySubPath(filePath);
+            }else
+            {
+                subItems = [NSArray arrayWithObject:filePath];
             }
-            
-            @autoreleasepool {
-                NSString *fullPath = [searchSubPaths objectAtIndex:0];
-                
-                if ([THFileUtility fileIsDirectory:fullPath])
+            for (NSString *fullPath in subItems)
+            {
+                @autoreleasepool
                 {
-                    [searchSubPaths addObjectsFromArray:directorySubPath(fullPath)];
+                    if (isStop)
+                    {
+                        break;
+                    }
+                    
+                    if ([THFileUtility fileIsDirectory:fullPath])
+                    {
+                        searth(fullPath,YES);
+                    }
+                    else if ([THFileUtility fileIsRegular:fullPath])
+                    {
+                        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                            @autoreleasepool {
+                                fileDispose(fullPath);
+                            }
+                            dispatch_semaphore_signal(semaphore);
+                        });
+                    }
                 }
-                else if ([THFileUtility fileIsRegular:fullPath])
-                {
-                    dispatch_semaphore_wait(semaphoreB, DISPATCH_TIME_FOREVER);
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                        @autoreleasepool {
-                            fileDispose(fullPath);
-                        }
-                        dispatch_semaphore_signal(semaphoreB);
-                    });
-                }
-                
-                [searchSubPaths removeObjectAtIndex:0];
             }
         }
     };
@@ -279,7 +300,14 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
     
     for (NSString *searchPath in validSearchPaths)
     {
-        searth(searchPath);
+        if ([THFileUtility fileIsDirectory:searchPath])
+        {
+            searth(searchPath,YES);
+        }
+        if ([THFileUtility fileIsRegular:searchPath])
+        {
+            searth(searchPath,NO);
+        }
     }
     
     //等待所有线程结束
@@ -287,21 +315,19 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
     while (waitTread > 0)
     {
         waitTread--;
-        dispatch_semaphore_wait(semaphoreA, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(semaphoreB, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     }
     
     //让semaphore恢复初使状态
     while (waitTread < kTHDuplictionConcurrentCount)
     {
         waitTread ++;
-        dispatch_semaphore_signal(semaphoreA);
-        dispatch_semaphore_signal(semaphoreB);
+        dispatch_semaphore_signal(semaphore);
     }
     
     searching = NO;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(notificationQueue, ^{
         [self postNotificationSize:nil hash:nil fileList:nil];
     });
 }
@@ -311,10 +337,9 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
     self = [super init];
     if (self)
     {
-        semaphoreA = dispatch_semaphore_create(kTHDuplictionConcurrentCount);
-        semaphoreB = dispatch_semaphore_create(kTHDuplictionConcurrentCount);
+        notificationQueue = dispatch_get_main_queue();
+        semaphore = dispatch_semaphore_create(kTHDuplictionConcurrentCount);
         lock = dispatch_semaphore_create(1);
-        minFileSize = 100*1024;
     }
     return self;
 }
@@ -328,7 +353,10 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
     
     fileInfo = [[NSMutableDictionary alloc] init];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self searchStart];
+        @autoreleasepool {
+            [self searchStart];
+            fileInfo = nil;
+        }
     });
 }
 

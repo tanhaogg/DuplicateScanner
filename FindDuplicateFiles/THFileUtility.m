@@ -24,14 +24,16 @@
 
 + (BOOL)fileIsRegular:(NSString *)filePath
 {
-    mode_t fileType = [self fileTypeByPath:filePath];
-    return fileType == (fileType | S_IFREG);
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
+    NSString *fileType = [attributes objectForKey:NSFileType];
+    return [fileType isEqualToString:NSFileTypeRegular];
 }
 
 + (BOOL)fileIsDirectory:(NSString *)filePath
 {
-    mode_t fileType = [self fileTypeByPath:filePath];
-    return fileType == (fileType | S_IFDIR);
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
+    NSString *fileType = [attributes objectForKey:NSFileType];
+    return [fileType isEqualToString:NSFileTypeDirectory];
 }
 
 + (uint64)fileSizeByPath:(NSString *)filePath

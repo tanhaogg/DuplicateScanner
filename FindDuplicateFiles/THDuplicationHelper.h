@@ -17,17 +17,18 @@ extern NSString* const THDuplicationFinished;
 @interface THDuplicationHelper : NSObject
 {
     NSMutableDictionary *fileInfo;
-    dispatch_semaphore_t semaphoreA;
-    dispatch_semaphore_t semaphoreB;
+    dispatch_semaphore_t semaphore;
     dispatch_semaphore_t lock;
     BOOL isStop;
 }
+@property (strong) dispatch_queue_t notificationQueue;
 
 @property (strong) NSArray *searchPaths;
 @property (strong) NSArray *filterFilePaths;
-@property (strong) NSArray *searchFileExtensions;
-@property (strong) NSArray *filterFileExtensions;
+
+@property (strong) NSPredicate *extensionsPredicate;
 @property (assign) uint64 minFileSize;
+@property (assign) uint64 maxFileSize;
 @property (assign) BOOL filterPackage;
 
 @property (readonly) BOOL searching;

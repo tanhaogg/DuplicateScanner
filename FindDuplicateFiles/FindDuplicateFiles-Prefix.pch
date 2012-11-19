@@ -4,4 +4,8 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import "NSString+Size.h"
+    #import "NSArray+Remove.h"
+    #define kSelfBundle [NSBundle bundleForClass:self.class]
+    #define THLocaleString(key)  NSLocalizedStringFromTableInBundle(key, nil, [NSBundle bundleForClass:self.class], nil)
 #endif

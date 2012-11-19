@@ -8,21 +8,54 @@
 
 #import <Cocoa/Cocoa.h>
 
+enum
+{
+    THDuplicationSortDefault = -1,
+    THDuplicationSortSize,
+    THDuplicationSortCount,
+    THDuplicationSortType
+};
+typedef NSInteger THDuplicationSort;
+
+@class McHeaderViewController;
+@class McHeaderView;
+@class THPredicateEditorViewController;
+@class THPathSelectedViewController;
 @class THDuplicationHelper;
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@class PXListView;
+@interface AppDelegate : NSObject <NSApplicationDelegate,NSSplitViewDelegate>
 {
     THDuplicationHelper *helper;
+    NSMutableArray *showLists;
+    NSMutableArray *results;
+    NSMutableDictionary *resultDictionary;
+    NSMutableDictionary *tempResultDictionary;
+    NSTimeInterval notificationInterval;
     
-    NSMutableDictionary *results;
+    NSString *filterString;
+    THDuplicationSort sortKind;
     
-    IBOutlet NSTextView *resultView;
-    IBOutlet NSTextView *extenstionView;
-    IBOutlet NSButton *filterPackageButton;
-    IBOutlet NSTextField *sizeField;
+    IBOutlet NSButton *startButton;
+    IBOutlet NSButton *stopButton;
+    
+    IBOutlet NSView *barView;
+    IBOutlet NSView *headerDocumentView;
+    IBOutlet McHeaderView *showHeaderView;
+    IBOutlet PXListView *resultView;
+    IBOutlet NSView *filterDocumentView;
+    IBOutlet NSView *pathDocumentView;
+    IBOutlet NSProgressIndicator *loadingView;
+    IBOutlet NSTextField *showResultView;
+    
+    McHeaderViewController *headerVC;
+    THPathSelectedViewController *pathVC;
+    THPredicateEditorViewController *predicateVC;
 }
 
 @property (assign) IBOutlet NSWindow *window;
-- (IBAction)click:(id)sender;
+- (IBAction)start:(id)sender;
 - (IBAction)stop:(id)sender;
+- (IBAction)searchClick:(id)sender;
+- (IBAction)sortClick:(id)sender;
 
 @end
