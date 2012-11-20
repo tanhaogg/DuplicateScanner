@@ -359,19 +359,21 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
     
     if ([fileList count] > 2)
     {
+        NSInteger idx = [results indexOfObject:listInfo];
         fileList = [fileList arrayByRemoveObject:filePath];
         listInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                     fileList,THDuplicationFileList,
                     [listInfo objectForKey:THDuplicationFileSize],THDuplicationFileSize,nil];
         
-        [results replaceObjectAtIndex:[results indexOfObject:listInfo] withObject:listInfo];
+        [results replaceObjectAtIndex:idx withObject:listInfo];
         for (NSArray *key in keys)
         {
             [resultDictionary setObject:listInfo forKey:key];
         }
     }else
     {
-        [results removeObjectAtIndex:[results indexOfObject:listInfo]];
+        NSInteger idx = [results indexOfObject:listInfo];
+        [results removeObjectAtIndex:idx];
         for (NSArray *key in keys)
         {
             [resultDictionary removeObjectForKey:key];
