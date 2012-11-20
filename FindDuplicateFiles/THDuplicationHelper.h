@@ -19,6 +19,7 @@ extern NSString* const THDuplicationFinished;
     NSMutableDictionary *fileInfo;
     dispatch_semaphore_t semaphore;
     dispatch_semaphore_t lock;
+    CFIndex queryCount;
     BOOL isStop;
 }
 @property (strong) dispatch_queue_t notificationQueue;

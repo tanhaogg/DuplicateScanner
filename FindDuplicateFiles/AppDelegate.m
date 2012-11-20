@@ -27,7 +27,7 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+{    
     [(INAppStoreWindow *)self.window setTitleBarHeight:NSHeight(barView.frame)];
     [(INAppStoreWindow *)self.window setCenterTrafficLightButtons:NO];
     [barView setFrameOrigin:NSMakePoint(0, 0)];
@@ -77,7 +77,7 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
     helper.extensionsPredicate = [predicateVC extensionPredicate];
     helper.minFileSize = [predicateVC minSize];
     helper.maxFileSize = [predicateVC maxSize];
-    helper.filterPackage = [predicateVC scanPackage];
+    helper.filterPackage = ![predicateVC scanPackage];
     
     //初使化界面显示
     results = [[NSMutableArray alloc] init];
@@ -162,47 +162,49 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
 
 - (void)receiveResults:(NSNotification *)notify
 {
-    BOOL finished = [[[notify userInfo] objectForKey:THDuplicationFinished] boolValue];
-    NSNumber *fileSize = [[notify userInfo] objectForKey:THDuplicationFileSize];
-    NSString *fileHash = [[notify userInfo] objectForKey:THDuplicationFileHash];
-    NSArray *fileList = [[notify userInfo] objectForKey:THDuplicationFileList];
-    NSString *fileExtension = [self idealExtension:fileList];
-    
-    if (fileSize && fileList && fileHash)
-    {
-        NSMutableDictionary *listInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                         fileList,THDuplicationFileList,
-                                         fileSize,THDuplicationFileSize,nil];
-        if (fileExtension) [listInfo setObject:fileExtension forKey:THDuplicationFileExtenstion];
-        @synchronized(tempResultDictionary){
-            [tempResultDictionary setObject:listInfo forKey:fileHash];
+    @autoreleasepool {
+        BOOL finished = [[[notify userInfo] objectForKey:THDuplicationFinished] boolValue];
+        NSNumber *fileSize = [[notify userInfo] objectForKey:THDuplicationFileSize];
+        NSString *fileHash = [[notify userInfo] objectForKey:THDuplicationFileHash];
+        NSArray *fileList = [[notify userInfo] objectForKey:THDuplicationFileList];
+        NSString *fileExtension = [self idealExtension:fileList];
+        
+        if (fileSize && fileList && fileHash)
+        {
+            NSMutableDictionary *listInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             fileList,THDuplicationFileList,
+                                             fileSize,THDuplicationFileSize,nil];
+            if (fileExtension) [listInfo setObject:fileExtension forKey:THDuplicationFileExtenstion];
+            @synchronized(tempResultDictionary){
+                [tempResultDictionary setObject:listInfo forKey:fileHash];
+            }
         }
-    }
-    
-    NSTimeInterval currentInterval = [NSDate timeIntervalSinceReferenceDate];
-    NSTimeInterval interval = currentInterval - notificationInterval;
-    
-    if ((finished || interval > 5.0) && [tempResultDictionary count] > 0)
-    {
-        NSDictionary *updateInfo = [NSDictionary dictionaryWithDictionary:tempResultDictionary];
-        @synchronized(tempResultDictionary){
-            [tempResultDictionary removeAllObjects];
+        
+        NSTimeInterval currentInterval = [NSDate timeIntervalSinceReferenceDate];
+        NSTimeInterval interval = currentInterval - notificationInterval;
+        
+        if ((finished || interval > 5.0) && [tempResultDictionary count] > 0)
+        {
+            NSDictionary *updateInfo = [NSDictionary dictionaryWithDictionary:tempResultDictionary];
+            @synchronized(tempResultDictionary){
+                [tempResultDictionary removeAllObjects];
+            }
+            notificationInterval = currentInterval;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self refreshResultList:updateInfo];
+                notificationInterval = [NSDate timeIntervalSinceReferenceDate];
+            });
         }
-        notificationInterval = currentInterval;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self refreshResultList:updateInfo];
-            notificationInterval = [NSDate timeIntervalSinceReferenceDate];
-        });
-    }
-    
-    if (finished)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [startButton setEnabled:YES];
-            [stopButton setEnabled:NO];
-            [loadingView stopAnimation:nil];
-            [loadingView setHidden:YES];
-        });
+        
+        if (finished)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [startButton setEnabled:YES];
+                [stopButton setEnabled:NO];
+                [loadingView stopAnimation:nil];
+                [loadingView setHidden:YES];
+            });
+        }
     }
 }
 
@@ -239,6 +241,7 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
                 if ([predicate evaluateWithObject:filePath])
                 {
                     [showLists addObject:listInfo];
+                    break;
                 }
             }
         }
@@ -290,9 +293,9 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
     for (NSDictionary *listInfo in showLists)
     {
         NSArray *fileList = [listInfo objectForKey:THDuplicationFileList];
-        totalCount += [fileList count];
+        totalCount += [fileList count]-1;
         NSNumber *fileSize = [listInfo objectForKey:THDuplicationFileSize];
-        totalSize += [fileSize longLongValue];
+        totalSize += ([fileList count]-1)*[fileSize longLongValue];
     }
     NSString *resultString = [NSString stringWithFormat:@"%@/%lld files",[NSString stringWithSize:totalSize],totalCount];
     [showResultView setStringValue:resultString];

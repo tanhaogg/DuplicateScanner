@@ -19,6 +19,9 @@ typedef NSInteger THHashKind;
 
 @interface THWebUtility : NSObject
 
+//快速部分MD5
++ (NSString *)lazyHashFile:(NSString *)filePath;
+
 //Hash 算法
 + (NSString *)hashFile:(NSString *)filePath with:(THHashKind)hashKind;
 + (NSString *)hashData:(NSData *)data with:(THHashKind)hashKind;

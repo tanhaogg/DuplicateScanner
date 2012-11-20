@@ -39,6 +39,18 @@
 + (uint64)fileSizeByPath:(NSString *)filePath
 {
     uint64 size = 0;
+    MDItemRef item = MDItemCreate(kCFAllocatorDefault, (__bridge CFStringRef)filePath);
+    if (item)
+    {
+        NSNumber *sizeNumber = (__bridge_transfer NSNumber*)MDItemCopyAttribute(item,kMDItemFSSize);
+        CFRelease(item);
+        size = [sizeNumber longLongValue];
+        if (size > 0)
+        {
+            return size;
+        }
+    }
+    
     struct stat stat1;
     if(stat([filePath fileSystemRepresentation], &stat1) == 0)
     {
