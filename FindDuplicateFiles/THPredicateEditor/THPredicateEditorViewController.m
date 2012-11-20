@@ -27,7 +27,7 @@
 {
     [super awakeFromNib];
     
-    [barView setTitle:@"Filter Condition"];
+    [barView setTitle:THLocaleString(@"Scanning Conditions")];
     
     /*
     THSizePredicateEditorRowTemplate *sizeTemplate = [THSizePredicateEditorRowTemplate defaultTemplate];

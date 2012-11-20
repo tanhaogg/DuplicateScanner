@@ -120,7 +120,7 @@
 	//set initial zoom value
 	[imageBrowser setZoomValue:0.25];
     
-    [barView setTitle:@"Path Seleted"];
+    [barView setTitle:THLocaleString(@"Scanning Paths")];
 }
 
 - (void)updateDatasource

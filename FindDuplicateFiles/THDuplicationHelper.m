@@ -352,7 +352,7 @@ NSString* const THDuplicationFinished = @"THDuplicationFinished";
         {
             searchScope = [searchScope stringByAppendingFormat:@" && (kMDItemFSSize < '%lld')",maxFileSize];
         }
-        //searchScope = [searchScope stringByAppendingFormat:@"&& (kMDItemContentType != 'public.folder')"];
+        searchScope = [searchScope stringByAppendingFormat:@"&& (kMDItemContentType != 'public.folder')"];
         searchScope = [searchScope stringByAppendingFormat:@"&& (kMDItemContentType != 'com.apple.mail.emlx')"];
         searchScope = [searchScope stringByAppendingFormat:@"&& (kMDItemContentType != 'public.vcard')"];
         MDQueryRef query = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchScope, NULL, NULL);

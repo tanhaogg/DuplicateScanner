@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  FindDuplicateFiles
+
+  Created by TanHao on 12-11-20.
+  Copyright (c) 2012年 tanhao.me. All rights reserved.
+*/
+
+"YES" = "是";
+"NO" = "否";
+
+"Scanning Conditions" = "扫描条件";
+"Scanning Paths" = "扫描路径";

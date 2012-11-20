@@ -26,6 +26,12 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
 
 @implementation AppDelegate
 
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+    [self.window makeKeyAndOrderFront:nil];
+    return YES;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {    
     [(INAppStoreWindow *)self.window setTitleBarHeight:NSHeight(barView.frame)];

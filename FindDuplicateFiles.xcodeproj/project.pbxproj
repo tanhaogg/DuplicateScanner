@@ -39,7 +39,6 @@
 		043D4CE01650DCC40083A911 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043D4CDF1650DCC40083A911 /* Quartz.framework */; };
 		043D4D0216521DDF0083A911 /* THConditionPredicateEditorRowTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D4CFC16521DDF0083A911 /* THConditionPredicateEditorRowTemplate.m */; };
 		043D4D0316521DDF0083A911 /* THPredicateEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D4CFE16521DDF0083A911 /* THPredicateEditorViewController.m */; };
-		043D4D0416521DDF0083A911 /* THPredicateEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043D4CFF16521DDF0083A911 /* THPredicateEditorViewController.xib */; };
 		043D4D0516521DDF0083A911 /* THSizePredicateEditorRowTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D0116521DDF0083A911 /* THSizePredicateEditorRowTemplate.m */; };
 		043D4D1D165282120083A911 /* THBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D1C165282110083A911 /* THBackgroundView.m */; };
 		043D4D261652985A0083A911 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 043D4D251652985A0083A911 /* NSString+Size.m */; };
@@ -50,7 +49,6 @@
 		044AF46E16441832001CBB72 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 044AF46D16441832001CBB72 /* AppDelegate.m */; };
 		044AF47116441832001CBB72 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044AF46F16441832001CBB72 /* MainMenu.xib */; };
 		044AF479164418CF001CBB72 /* THFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 044AF478164418CF001CBB72 /* THFileUtility.m */; };
-		044AF4891644288F001CBB72 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 044AF47F1644288F001CBB72 /* readme.txt */; };
 		044AF48A1644288F001CBB72 /* THDownloadWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 044AF4811644288F001CBB72 /* THDownloadWebService.m */; };
 		044AF48B1644288F001CBB72 /* THPostWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 044AF4831644288F001CBB72 /* THPostWebService.m */; };
 		044AF48C1644288F001CBB72 /* THWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 044AF4861644288F001CBB72 /* THWebService.m */; };
@@ -62,6 +60,8 @@
 		04C6D7CB164E34440037A8C1 /* PXListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C6D7C6164E34440037A8C1 /* PXListView.m */; };
 		04C6D7CF164E3AC20037A8C1 /* THDuplicateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C6D7CE164E3AC10037A8C1 /* THDuplicateCell.m */; };
 		04C6D7D2164E3B260037A8C1 /* THStaticTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C6D7D1164E3B250037A8C1 /* THStaticTextField.m */; };
+		04D9AB08165B793600F6C072 /* THPredicateEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D9AB0A165B793600F6C072 /* THPredicateEditorViewController.xib */; };
+		04D9AB0F165B7DD400F6C072 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04D9AB11165B7DD400F6C072 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,7 +114,6 @@
 		043D4CFC16521DDF0083A911 /* THConditionPredicateEditorRowTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THConditionPredicateEditorRowTemplate.m; sourceTree = "<group>"; };
 		043D4CFD16521DDF0083A911 /* THPredicateEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THPredicateEditorViewController.h; sourceTree = "<group>"; };
 		043D4CFE16521DDF0083A911 /* THPredicateEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THPredicateEditorViewController.m; sourceTree = "<group>"; };
-		043D4CFF16521DDF0083A911 /* THPredicateEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = THPredicateEditorViewController.xib; sourceTree = "<group>"; };
 		043D4D0016521DDF0083A911 /* THSizePredicateEditorRowTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THSizePredicateEditorRowTemplate.h; sourceTree = "<group>"; };
 		043D4D0116521DDF0083A911 /* THSizePredicateEditorRowTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THSizePredicateEditorRowTemplate.m; sourceTree = "<group>"; };
 		043D4D1B165282110083A911 /* THBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THBackgroundView.h; sourceTree = "<group>"; };
@@ -165,6 +164,14 @@
 		04C6D7CE164E3AC10037A8C1 /* THDuplicateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDuplicateCell.m; sourceTree = "<group>"; };
 		04C6D7D0164E3B250037A8C1 /* THStaticTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THStaticTextField.h; sourceTree = "<group>"; };
 		04C6D7D1164E3B250037A8C1 /* THStaticTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THStaticTextField.m; sourceTree = "<group>"; };
+		04D9AB06165B77F600F6C072 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.xib"; sourceTree = "<group>"; };
+		04D9AB07165B77FF00F6C072 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.xib"; sourceTree = "<group>"; };
+		04D9AB09165B793600F6C072 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/THPredicateEditorViewController.xib; sourceTree = "<group>"; };
+		04D9AB0B165B793A00F6C072 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/THPredicateEditorViewController.xib"; sourceTree = "<group>"; };
+		04D9AB0C165B793B00F6C072 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/THPredicateEditorViewController.xib"; sourceTree = "<group>"; };
+		04D9AB10165B7DD400F6C072 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04D9AB12165B7DD500F6C072 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		04D9AB13165B7DDA00F6C072 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +245,7 @@
 			children = (
 				043D4CFD16521DDF0083A911 /* THPredicateEditorViewController.h */,
 				043D4CFE16521DDF0083A911 /* THPredicateEditorViewController.m */,
-				043D4CFF16521DDF0083A911 /* THPredicateEditorViewController.xib */,
+				04D9AB0A165B793600F6C072 /* THPredicateEditorViewController.xib */,
 				043D4D0016521DDF0083A911 /* THSizePredicateEditorRowTemplate.h */,
 				043D4D0116521DDF0083A911 /* THSizePredicateEditorRowTemplate.m */,
 				043D4CFB16521DDF0083A911 /* THConditionPredicateEditorRowTemplate.h */,
@@ -335,6 +342,7 @@
 				044AF46616441832001CBB72 /* main.m */,
 				044AF46816441832001CBB72 /* FindDuplicateFiles-Prefix.pch */,
 				044AF46916441832001CBB72 /* Credits.rtf */,
+				04D9AB11165B7DD400F6C072 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -426,6 +434,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hant",
+				"zh-Hans",
 			);
 			mainGroup = 044AF44B16441831001CBB72;
 			productRefGroup = 044AF45716441831001CBB72 /* Products */;
@@ -445,14 +455,13 @@
 				044AF46516441832001CBB72 /* InfoPlist.strings in Resources */,
 				044AF46B16441832001CBB72 /* Credits.rtf in Resources */,
 				044AF47116441832001CBB72 /* MainMenu.xib in Resources */,
-				044AF4891644288F001CBB72 /* readme.txt in Resources */,
 				043D4CCD1650DBB70083A911 /* glossy.png in Resources */,
 				043D4CD11650DBB70083A911 /* metal_background.png in Resources */,
 				043D4CD21650DBB70083A911 /* metal_background@2x.png in Resources */,
 				043D4CD31650DBB70083A911 /* pin.png in Resources */,
 				043D4CD41650DBB70083A911 /* pin@2x.png in Resources */,
 				043D4CD61650DBB70083A911 /* THPathSelectedViewController.xib in Resources */,
-				043D4D0416521DDF0083A911 /* THPredicateEditorViewController.xib in Resources */,
+				04D9AB08165B793600F6C072 /* THPredicateEditorViewController.xib in Resources */,
 				040F0CC71657DECE00015F15 /* McHeaderViewController.xib in Resources */,
 				040F0CCD1657E0DD00015F15 /* headerBg.png in Resources */,
 				040F0CCE1657E0DD00015F15 /* headerBg@2x.png in Resources */,
@@ -460,6 +469,7 @@
 				040F0CD21657E0E900015F15 /* headerLogo@2x.png in Resources */,
 				040F0CDA16587C6700015F15 /* start.png in Resources */,
 				040F0CDC16587C6700015F15 /* stop.png in Resources */,
+				04D9AB0F165B7DD400F6C072 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,8 +540,30 @@
 			isa = PBXVariantGroup;
 			children = (
 				044AF47016441832001CBB72 /* en */,
+				04D9AB06165B77F600F6C072 /* zh-Hant */,
+				04D9AB07165B77FF00F6C072 /* zh-Hans */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		04D9AB0A165B793600F6C072 /* THPredicateEditorViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				04D9AB09165B793600F6C072 /* en */,
+				04D9AB0B165B793A00F6C072 /* zh-Hant */,
+				04D9AB0C165B793B00F6C072 /* zh-Hans */,
+			);
+			name = THPredicateEditorViewController.xib;
+			sourceTree = "<group>";
+		};
+		04D9AB11165B7DD400F6C072 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				04D9AB10165B7DD400F6C072 /* en */,
+				04D9AB12165B7DD500F6C072 /* zh-Hant */,
+				04D9AB13165B7DDA00F6C072 /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

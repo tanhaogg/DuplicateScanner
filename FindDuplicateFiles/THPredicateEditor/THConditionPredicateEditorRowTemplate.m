@@ -33,7 +33,7 @@
     if (!conditionButton)
     {
         conditionButton = [[NSPopUpButton alloc] init];
-        [conditionButton addItemsWithTitles:[NSArray arrayWithObjects:@"YES", @"NO", nil]];
+        [conditionButton addItemsWithTitles:[NSArray arrayWithObjects:THLocaleString(@"YES"), THLocaleString(@"NO"), nil]];
     }
     NSArray *currentViews = [super templateViews];
     NSMutableArray *resultViews = [currentViews mutableCopy];
