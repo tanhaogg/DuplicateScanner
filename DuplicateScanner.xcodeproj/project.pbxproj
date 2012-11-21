@@ -62,6 +62,7 @@
 		04C6D7D2164E3B260037A8C1 /* THStaticTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C6D7D1164E3B250037A8C1 /* THStaticTextField.m */; };
 		04D9AB08165B793600F6C072 /* THPredicateEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D9AB0A165B793600F6C072 /* THPredicateEditorViewController.xib */; };
 		04D9AB0F165B7DD400F6C072 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04D9AB11165B7DD400F6C072 /* Localizable.strings */; };
+		04D9AB2C165BE5AC00F6C072 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04D9AB2B165BE5AC00F6C072 /* icon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,15 +121,15 @@
 		043D4D1C165282110083A911 /* THBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THBackgroundView.m; sourceTree = "<group>"; };
 		043D4D24165298590083A911 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
 		043D4D251652985A0083A911 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
-		044AF45616441831001CBB72 /* FindDuplicateFiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindDuplicateFiles.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		044AF45616441831001CBB72 /* DuplicateScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuplicateScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		044AF45A16441831001CBB72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		044AF45D16441831001CBB72 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		044AF45E16441831001CBB72 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		044AF45F16441831001CBB72 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		044AF46216441832001CBB72 /* FindDuplicateFiles-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FindDuplicateFiles-Info.plist"; sourceTree = "<group>"; };
+		044AF46216441832001CBB72 /* DuplicateScanner-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DuplicateScanner-Info.plist"; sourceTree = "<group>"; };
 		044AF46416441832001CBB72 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		044AF46616441832001CBB72 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		044AF46816441832001CBB72 /* FindDuplicateFiles-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FindDuplicateFiles-Prefix.pch"; sourceTree = "<group>"; };
+		044AF46816441832001CBB72 /* DuplicateScanner-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DuplicateScanner-Prefix.pch"; sourceTree = "<group>"; };
 		044AF46A16441832001CBB72 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		044AF46C16441832001CBB72 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		044AF46D16441832001CBB72 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -172,6 +173,9 @@
 		04D9AB10165B7DD400F6C072 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04D9AB12165B7DD500F6C072 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		04D9AB13165B7DDA00F6C072 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		04D9AB26165BD1DA00F6C072 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		04D9AB28165BD1DA00F6C072 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		04D9AB2B165BE5AC00F6C072 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +211,7 @@
 		040F0CCA1657E0C700015F15 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04D9AB2B165BE5AC00F6C072 /* icon.icns */,
 				040F0CD616587C6700015F15 /* start.png */,
 				040F0CD816587C6700015F15 /* stop.png */,
 				040F0CCF1657E0E900015F15 /* headerLogo.png */,
@@ -268,7 +273,7 @@
 		044AF45716441831001CBB72 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				044AF45616441831001CBB72 /* FindDuplicateFiles.app */,
+				044AF45616441831001CBB72 /* DuplicateScanner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -337,10 +342,10 @@
 		044AF46116441832001CBB72 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				044AF46216441832001CBB72 /* FindDuplicateFiles-Info.plist */,
+				044AF46216441832001CBB72 /* DuplicateScanner-Info.plist */,
 				044AF46316441832001CBB72 /* InfoPlist.strings */,
 				044AF46616441832001CBB72 /* main.m */,
-				044AF46816441832001CBB72 /* FindDuplicateFiles-Prefix.pch */,
+				044AF46816441832001CBB72 /* DuplicateScanner-Prefix.pch */,
 				044AF46916441832001CBB72 /* Credits.rtf */,
 				04D9AB11165B7DD400F6C072 /* Localizable.strings */,
 			);
@@ -402,9 +407,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		044AF45516441831001CBB72 /* FindDuplicateFiles */ = {
+		044AF45516441831001CBB72 /* DuplicateScanner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 044AF47416441832001CBB72 /* Build configuration list for PBXNativeTarget "FindDuplicateFiles" */;
+			buildConfigurationList = 044AF47416441832001CBB72 /* Build configuration list for PBXNativeTarget "DuplicateScanner" */;
 			buildPhases = (
 				044AF45216441831001CBB72 /* Sources */,
 				044AF45316441831001CBB72 /* Frameworks */,
@@ -414,9 +419,9 @@
 			);
 			dependencies = (
 			);
-			name = FindDuplicateFiles;
+			name = DuplicateScanner;
 			productName = FindDuplicateFiles;
-			productReference = 044AF45616441831001CBB72 /* FindDuplicateFiles.app */;
+			productReference = 044AF45616441831001CBB72 /* DuplicateScanner.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -428,7 +433,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = tanhao.me;
 			};
-			buildConfigurationList = 044AF45016441831001CBB72 /* Build configuration list for PBXProject "FindDuplicateFiles" */;
+			buildConfigurationList = 044AF45016441831001CBB72 /* Build configuration list for PBXProject "DuplicateScanner" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -442,7 +447,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				044AF45516441831001CBB72 /* FindDuplicateFiles */,
+				044AF45516441831001CBB72 /* DuplicateScanner */,
 			);
 		};
 /* End PBXProject section */
@@ -470,6 +475,7 @@
 				040F0CDA16587C6700015F15 /* start.png in Resources */,
 				040F0CDC16587C6700015F15 /* stop.png in Resources */,
 				04D9AB0F165B7DD400F6C072 /* Localizable.strings in Resources */,
+				04D9AB2C165BE5AC00F6C072 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +530,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				044AF46416441832001CBB72 /* en */,
+				04D9AB26165BD1DA00F6C072 /* zh-Hant */,
+				04D9AB28165BD1DA00F6C072 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -629,9 +637,9 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FindDuplicateFiles/FindDuplicateFiles-Prefix.pch";
-				INFOPLIST_FILE = "FindDuplicateFiles/FindDuplicateFiles-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "FindDuplicateFiles/DuplicateScanner-Prefix.pch";
+				INFOPLIST_FILE = "FindDuplicateFiles/DuplicateScanner-Info.plist";
+				PRODUCT_NAME = DuplicateScanner;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -643,9 +651,9 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FindDuplicateFiles/FindDuplicateFiles-Prefix.pch";
-				INFOPLIST_FILE = "FindDuplicateFiles/FindDuplicateFiles-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "FindDuplicateFiles/DuplicateScanner-Prefix.pch";
+				INFOPLIST_FILE = "FindDuplicateFiles/DuplicateScanner-Info.plist";
+				PRODUCT_NAME = DuplicateScanner;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -653,7 +661,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		044AF45016441831001CBB72 /* Build configuration list for PBXProject "FindDuplicateFiles" */ = {
+		044AF45016441831001CBB72 /* Build configuration list for PBXProject "DuplicateScanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				044AF47216441832001CBB72 /* Debug */,
@@ -662,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		044AF47416441832001CBB72 /* Build configuration list for PBXNativeTarget "FindDuplicateFiles" */ = {
+		044AF47416441832001CBB72 /* Build configuration list for PBXNativeTarget "DuplicateScanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				044AF47516441832001CBB72 /* Debug */,

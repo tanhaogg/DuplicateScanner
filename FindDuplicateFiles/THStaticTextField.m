@@ -19,6 +19,10 @@
         [self setBordered:NO];
         [self setEditable:NO];
         [self setSelectable:NO];
+        if ([self respondsToSelector:@selector(setAllowsExpansionToolTips:)])
+        {
+            [self setAllowsExpansionToolTips:YES];
+        }
     }
     
     return self;

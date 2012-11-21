@@ -33,7 +33,12 @@ const NSString *THDuplicationFileExtenstion = @"THDuplicationFileExtenstion";
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{    
+{
+    
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenuItem *oneMenuItem = [mainMenu itemAtIndex:0];
+    [oneMenuItem setTitle:THLocaleString(@"CFBundleDisplayName")];
+    
     [(INAppStoreWindow *)self.window setTitleBarHeight:NSHeight(barView.frame)];
     [(INAppStoreWindow *)self.window setCenterTrafficLightButtons:NO];
     [barView setFrameOrigin:NSMakePoint(0, 0)];

@@ -1,0 +1,4 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleDisplayName = "重複文件掃描";
+CFBundleName = "重複文件掃描";
