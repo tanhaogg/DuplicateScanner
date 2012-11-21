@@ -22,7 +22,7 @@ extern NSString* const THDuplicationFinished;
     CFIndex queryCount;
     BOOL isStop;
 }
-@property (strong) dispatch_queue_t notificationQueue;
+@property (assign) dispatch_queue_t notificationQueue;
 
 @property (strong) NSArray *searchPaths;
 @property (strong) NSArray *filterFilePaths;

@@ -11,6 +11,7 @@
 @interface THConditionPredicateEditorRowTemplate : NSPredicateEditorRowTemplate
 {
     NSPopUpButton *conditionButton;
+    BOOL once;
 }
 
 + (id)defaultTemplate;

@@ -33,7 +33,7 @@
     if (!conditionButton)
     {
         conditionButton = [[NSPopUpButton alloc] init];
-        [conditionButton addItemsWithTitles:[NSArray arrayWithObjects:THLocaleString(@"YES"), THLocaleString(@"NO"), nil]];
+        [conditionButton addItemsWithTitles:[NSArray arrayWithObjects:THLocaleString(@"NO"),THLocaleString(@"YES"), nil]];
     }
     NSArray *currentViews = [super templateViews];
     NSMutableArray *resultViews = [currentViews mutableCopy];
@@ -60,7 +60,7 @@
 {
     NSArray *views = [self templateViews];
     NSInteger rightIdx = [[views objectAtIndex:2] indexOfSelectedItem];
-    if (rightIdx == 0)
+    if (rightIdx == 1)
     {
         return YES;
     }
@@ -77,7 +77,7 @@
     NSInteger rightIdx = [[views objectAtIndex:2] indexOfSelectedItem];
     NSExpression *rightExpression = [NSExpression expressionForConstantValue:[NSNumber numberWithBool:NO]];;
     NSPredicateOperatorType operatorType = NSEqualToPredicateOperatorType;
-    if (rightIdx == 0)
+    if (rightIdx == 1)
     {
         operatorType = NSNotEqualToPredicateOperatorType;
     }
