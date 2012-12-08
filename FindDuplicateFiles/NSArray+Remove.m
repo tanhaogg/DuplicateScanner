@@ -14,7 +14,7 @@
 {
     if (!obj || ![self containsObject:obj])
     {
-        return self;
+        return [self copy];
     }
     
     NSMutableArray *tempArray = [self mutableCopy];
@@ -27,13 +27,13 @@
 {
     if ([array count] == 0)
     {
-        return self;
+        return [self copy];
     }
     
     NSArray *resultArray = self;
     for (id obj in array)
     {
-        resultArray = [self arrayByRemoveObject:obj];
+        resultArray = [resultArray arrayByRemoveObject:obj];
     }
     return resultArray;
 }
